@@ -1,5 +1,4 @@
 const webcam = document.getElementById("camera");
-console.log(webcam);
 
 if (navigator.mediaDevices.getUserMedia) {
 	navigator.mediaDevices
@@ -196,11 +195,23 @@ function simulatePlayerPosition() {
 }
 // Game Loop
 function gameLoop() {
-	simulatePlayerPosition();
+	//simulatePlayerPosition();
 	update();
 	draw();
 	requestAnimationFrame(gameLoop);
 }
+
+var socket = io.connect();
+
+//receive details from server
+socket.on("updateFingersPositions", function (msg) {
+	//assign racket position
+	playerRacket.x1 = msg.x1;
+	playerRacket.y1 = msg.y1;
+	playerRacket.x2 = msg.x2;
+	playerRacket.y2 = msg.y2;
+	console.log("fingers positions have been changed!");
+});
 
 // Start the game loop
 gameLoop();

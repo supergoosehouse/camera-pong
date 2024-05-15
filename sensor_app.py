@@ -89,7 +89,7 @@ def background_thread():
             print("Processing data:", label)
         else:
             dummy_sensor_value = 1.0
-        socketio.emit('updateSensorData', {'value': dummy_sensor_value, "date": get_current_datetime()})
+        socketio.emit('updateFingersPositions', {"x1": data[0], "y1": data[1], "x2": data[2], "y2": data[3]})
         socketio.sleep(0.3)
 
 def get_frame():
@@ -124,11 +124,14 @@ def image_proccessing():
             results = hands.process(image)
             if results.multi_hand_landmarks:
                 for  hand in results.multi_hand_landmarks:
-                    index_finger_tip = hand.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP]
-                    x = index_finger_tip.x
-                    y = index_finger_tip.y
-                    coordinates.append((x,y))
-                    print(f"Coordinate: {x}")
+                    middle_finger_tip = hand.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP]
+                    index_finger_tip = hand.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
+
+                    x1 = index_finger_tip.x
+                    y1 = index_finger_tip.y
+                    x2 = middle_finger_tip.x
+                    y2 = middle_finger_tip.y
+                    coordinates.append((x1, y1, x2, y2))
 
 
                     landmark_list = calc_landmark_list(image, hand)
