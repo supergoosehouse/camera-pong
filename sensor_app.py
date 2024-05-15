@@ -94,7 +94,8 @@ def background_thread():
             print("Processing data:", label)
         else:
             dummy_sensor_value = 1.0
-        socketio.emit('updateFingersPositions', {"x1": x1, "y1": y1, "x2": x2, "y2": y2})
+        if(x1 != 0 and x2 != 0 and y1 != 0 and y2 != 0):
+            socketio.emit('updateFingersPositions', {"x1": x1, "y1": y1, "x2": x2, "y2": y2})
         socketio.sleep(0.3)
 
 def get_frame():
@@ -180,15 +181,6 @@ Decorator for disconnect
 @socketio.on('disconnect')
 def disconnect():
     print('Client disconnected',  request.sid)
-
-@app.route('/add_hello', methods=['POST'])
-def add_hello():
-    data = request.get_json()
-    if 'string' in data:
-        responce_string = data['string'] + ", hello!"
-        return {"responce": responce_string}
-    else:
-        return {"error": "string not provided"}, 400
 
 if __name__ == '__main__':
     socketio.run(app);
