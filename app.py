@@ -206,10 +206,13 @@ def main():
                   
 
 
-                    index_finger_tip = hand.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP]
+                    middle_finger_tip = hand.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP]
+                    index_finger_tip = hand.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
 
-                    x = index_finger_tip.x
-                    y = index_finger_tip.y
+                    x1 = index_finger_tip.x
+                    y1 = index_finger_tip.y
+                    x2 = middle_finger_tip.x
+                    y2 = middle_finger_tip.y
 
                     # Optional: Convert normalized coordinates to pixel values
                     # (if you need absolute coordinates within the image)

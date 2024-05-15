@@ -81,20 +81,25 @@ def background_thread():
     print("Generating random sensor values")
     global coordinates
     global labels
+    x1=0
+    x2=0
+    y1=0
+    y2=0
     while True:
         if coordinates:
             data = coordinates.pop(0)
+            x1, y1, x2, y2= data[0], data[1], data[2], data[3]
             label = float(labels.pop(0))
             dummy_sensor_value = label
             print("Processing data:", label)
         else:
             dummy_sensor_value = 1.0
-        socketio.emit('updateFingersPositions', {"x1": data[0], "y1": data[1], "x2": data[2], "y2": data[3]})
+        socketio.emit('updateFingersPositions', {"x1": x1, "y1": y1, "x2": x2, "y2": y2})
         socketio.sleep(0.3)
 
 def get_frame():
     global data_queue
-    cap = cv2.VideoCapture(0) 
+    cap = cv2.VideoCapture(1) 
     while True:
         ret, frame = cap.read() # ret - return value
             # We change the color format here from BGR to RGB to make the model work
