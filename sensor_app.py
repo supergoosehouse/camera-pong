@@ -90,11 +90,11 @@ def background_thread():
         else:
             dummy_sensor_value = 1.0
         socketio.emit('updateSensorData', {'value': dummy_sensor_value, "date": get_current_datetime()})
-        socketio.sleep(0.5)
+        socketio.sleep(0.3)
 
 def get_frame():
     global data_queue
-    cap = cv2.VideoCapture(1) 
+    cap = cv2.VideoCapture(0) 
     while True:
         ret, frame = cap.read() # ret - return value
             # We change the color format here from BGR to RGB to make the model work
@@ -173,5 +173,14 @@ Decorator for disconnect
 def disconnect():
     print('Client disconnected',  request.sid)
 
+@app.route('/add_hello', methods=['POST'])
+def add_hello():
+    data = request.get_json()
+    if 'string' in data:
+        responce_string = data['string'] + ", hello!"
+        return {"responce": responce_string}
+    else:
+        return {"error": "string not provided"}, 400
+
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app);

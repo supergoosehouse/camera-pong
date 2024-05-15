@@ -1,18 +1,36 @@
-.hero {
-    background: #eee;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 1em;
+.abody {
+	text-align: center;
+	background-color: ghostwhite;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	flex-direction: column;
+	position: fixed;
+	width: 100%;
+	font-family: "Roboto Mono", monospace;
+}
+canvas {
+	background-color: transparent;
+	position: absolute;
+}
+video {
+	position: absolute;
+	background-color: black;
+	object-fit: fill;
+	transform: rotateY(180deg);
+	-webkit-transform: rotateY(180deg); /* Safari and Chrome */
+	-moz-transform: rotateY(180deg);
 }
 
-.hero h1 {
-    margin-top: 0;
-    margin-bottom: 0.3em;
-    text-align: center;
+.gameCanvas {
+	width: 1000px;
+	height: 500px;
+	position: relative;
+	top: 0px;
+	left: 0px;
 }
 
-
-.chart-container {
-	max-width: 800px;
-	margin: 0 auto;
+.main_div {
+	flex-direction: column;
 }
