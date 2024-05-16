@@ -9,7 +9,7 @@ class GestureClassifier(object):
         self,
         model_path='model/gesture_classifier/gesture_classifier.tflite',
         num_threads=1,
-        threshold=0.8,
+        threshold=0.9,
     ):
         self.interpreter = tf.lite.Interpreter(model_path=model_path,
                                                num_threads=num_threads)
@@ -33,7 +33,7 @@ class GestureClassifier(object):
         result = self.interpreter.get_tensor(output_details_tensor_index)
         if np.max(result) < self.threshold:
             # If maximum confidence is below threshold, classify as unknown or -1
-            result_index = result[0].shape[0]
+            result_index = 6 # None index, change if the number of labels was changed
         else:
             result_index = np.argmax(np.squeeze(result))
 

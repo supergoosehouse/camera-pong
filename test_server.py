@@ -149,7 +149,7 @@ def main():
     # joint of the hand(red dots) are called landmarks
 
     # Web cam feed, on which we arfe going to overlap medipipe model
-    cap = cv2.VideoCapture(0) # the number is the divice's camera
+    cap = cv2.VideoCapture(1) # the number is the divice's camera
     # instantiation mediapipe hands model
     # min_tracking_confidence 
     # min_detection_confidence - how accurate out model will be
@@ -243,5 +243,5 @@ def connect():
     socketio.start_background_task(main)
 
 if __name__ == '__main__':
-    socketio.run(app);
-    #main();
+    socketio.run(app)
+    #main()
