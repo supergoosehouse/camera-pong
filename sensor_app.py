@@ -11,6 +11,7 @@ import numpy as np
 import csv
 import copy
 import argparse
+import base64
 import itertools
 from collections import deque
 from model import GestureClassifier
@@ -89,18 +90,17 @@ def background_thread():
         if coordinates:
             data = coordinates.pop(0)
             x1, y1, x2, y2= data[0], data[1], data[2], data[3]
-            label = float(labels.pop(0))
-            dummy_sensor_value = label
-            print("Processing data:", label)
+            #label = float(labels.pop(0)) TODO: uncomment
+            #print("Processing data:", label)
         else:
             dummy_sensor_value = 1.0
         if(x1 != 0 and x2 != 0 and y1 != 0 and y2 != 0):
             socketio.emit('updateFingersPositions', {"x1": x1, "y1": y1, "x2": x2, "y2": y2})
-        socketio.sleep(0.3)
+        socketio.sleep(0.1)
 
 def get_frame():
     global data_queue
-    cap = cv2.VideoCapture(1) 
+    cap = cv2.VideoCapture(0) 
     while True:
         ret, frame = cap.read() # ret - return value
             # We change the color format here from BGR to RGB to make the model work
@@ -110,7 +110,7 @@ def get_frame():
             # Set flag
         image.flags.writeable = False
         data_queue.append(frame)
-        socketio.sleep(0.2) # Adjust the sleep time as needed
+        socketio.sleep(0.1) # Adjust the sleep time as needed
 
 def image_proccessing():
     print("Thread entered")
@@ -148,7 +148,7 @@ def image_proccessing():
                     labels.append(hand_sign_id)
         else:
             print("No elements in the queue were found")
-        socketio.sleep(0.2)
+        socketio.sleep(0.1)
 
 
 """

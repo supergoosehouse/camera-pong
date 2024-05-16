@@ -1,17 +1,4 @@
-// const webcam = document.getElementById("camera");
-
-// if (navigator.mediaDevices.getUserMedia) {
-// 	navigator.mediaDevices
-// 		.getUserMedia({ video: true })
-// 		.then((stream) => {
-// 			webcam.srcObject = stream;
-// 		})
-// 		.catch((error) => {
-// 			console.error("Error accessing webcam:", error);
-// 		});
-// } else {
-// 	console.error("getUserMedia not supported in this browser.");
-// }
+const webcam = document.getElementById("camera");
 
 const canvas = document.getElementById("gameCanvas");
 const canvasWidth = parseInt(canvas.style.width.replace("px", ""));
@@ -212,7 +199,10 @@ socket.on("updateFingersPositions", function (msg) {
 	playerRacket.y1 = msg["y1"] * 500;
 	playerRacket.x2 = msg["x2"] * 1000;
 	playerRacket.y2 = msg["y2"] * 500;
-	console.log(msg);
+});
+socket.on("frame", function (msg) {
+	console.log(msg.image);
+	webcam.src = "data:image/jpeg;base64," + msg.image;
 });
 
 // Start the game loop
