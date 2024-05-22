@@ -11,7 +11,6 @@
 	font-family: "Roboto Mono", monospace;
 }
 canvas {
-	background-color: transparent;
 	position: absolute;
 }
 video {
@@ -24,11 +23,21 @@ video {
 }
 
 .gameCanvas {
-	width: 1000px;
-	height: 500px;
-	position: relative;
-	top: 0px;
-	left: 0px;
+	position: absolute;
+	background-color: transparent;
+	z-index: 5;
+}
+.gameBackground {
+	position: absolute;
+	background-color: black;
+}
+.emojiDisplay {
+	position: absolute;
+	margin-left: 400px;
+	margin-top: 200px;
+	color: white;
+	font-size: 100px;
+	z-index: 4;
 }
 
 .main_div {

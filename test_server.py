@@ -131,6 +131,14 @@ def logging_csv(number, mode, landmark_list):
             writer.writerow([number, *landmark_list])
     return
 
+def encode_image(image):
+    _, img_bytes = cv2.imencode('.jpg', image)
+    return img_bytes.tobytes()
+
+def send_frame(image):
+    encoded_image = encode_image(image)
+    #socketio.emit("frame", {"image": encoded_image})
+
 def main():
     mode=0
     parser = argparse.ArgumentParser()
@@ -149,7 +157,7 @@ def main():
     # joint of the hand(red dots) are called landmarks
 
     # Web cam feed, on which we arfe going to overlap medipipe model
-    cap = cv2.VideoCapture(1) # the number is the divice's camera
+    cap = cv2.VideoCapture(0) # the number is the divice's camera
     # instantiation mediapipe hands model
     # min_tracking_confidence 
     # min_detection_confidence - how accurate out model will be
@@ -177,8 +185,8 @@ def main():
             image.flags.writeable = True
             # Convert image format back to BGR
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            send_frame(debug_image)
             debug_image = copy.deepcopy(image)
-            socketio.emit("frame", {"image": debug_image.tobytes()})
             # chacks if there are any coordinates in the list
             if results.multi_hand_landmarks:
                 for  hand, handedness in zip(results.multi_hand_landmarks,
@@ -210,7 +218,6 @@ def main():
                     #gesture_classifier_labels[hand_sign_id],
                     )
 
-
                     middle_finger_tip = hand.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP]
                     index_finger_tip = hand.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
 
@@ -219,6 +226,7 @@ def main():
                     x2 = middle_finger_tip.x
                     y2 = middle_finger_tip.y
 
+                    socketio.emit('updateGesture', {'gesture': gesture_classifier_labels[hand_sign_id]})
                     socketio.emit('updateFingersPositions', {"x1": x1, "y1": y1, "x2": x2, "y2": y2})
                     # Optional: Convert normalized coordinates to pixel values
                     # (if you need absolute coordinates within the image)

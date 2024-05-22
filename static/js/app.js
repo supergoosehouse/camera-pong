@@ -1,9 +1,18 @@
 const webcam = document.getElementById("camera");
-
+const emojiDisplay = document.getElementById("emojiDisplay");
 const canvas = document.getElementById("gameCanvas");
 const canvasWidth = parseInt(canvas.style.width.replace("px", ""));
 const canvasHeight = parseInt(canvas.style.height.replace("px", ""));
 const ctx = canvas.getContext("2d");
+const gestureEmojis = {
+	Peace: "✌️",
+	Rock: "🤟",
+	ThumbUp: "👍",
+	ThumbDown: "👎",
+	OK: "👌",
+	PinchedFingers: "🤌",
+	None: "",
+};
 let playerRacket = {
 	x1: 100,
 	y1: 100,
@@ -200,9 +209,14 @@ socket.on("updateFingersPositions", function (msg) {
 	playerRacket.x2 = msg["x2"] * 1000;
 	playerRacket.y2 = msg["y2"] * 500;
 });
+socket.on("updateGesture", function (msg) {
+	emojiDisplay.textContent = gestureEmojis[msg.gesture];
+});
 socket.on("frame", function (msg) {
-	console.log(msg.image);
-	webcam.src = "data:image/jpeg;base64," + msg.image;
+	var arrayBuffer = msg.image.buffer;
+	var blob = new Blob([new Uint8Array(arrayBuffer)], { type: "image/jpeg" });
+	var imageUrl = URL.createObjectURL(blob);
+	webcam.src = imageUrl;
 });
 
 // Start the game loop
