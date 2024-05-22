@@ -4,6 +4,10 @@
 
 Camera Pong is a classic pong game with a twist - instead of using keyboard controls, it utilizes your webcam and hand recognition to control the pong racket. This adds an interactive and immersive element to the gameplay experience.
 
+## Preview
+
+![preview1](/preview/CPpreview1.gif)
+
 ## Technologies Used
 
 - JavaScript (JS)
@@ -57,8 +61,4 @@ Camera Pong is a classic pong game with a twist - instead of using keyboard cont
   - ThumbUp
   - ThumbDown
   - OK
-  - PinchedFingers.
-
-## Preview
-
-![preview1](/preview/CPpreview1.gif)
+  - PinchedFingers
